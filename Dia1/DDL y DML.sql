@@ -57,4 +57,38 @@ SELECT * FROM tareas WHERE usuario_id=1 or usuario_id=2;
 INSERT INTO tareas (id, titulo, descripcion, usuario_id) VALUES (DEFAULT, 'Ir a comer', 'Comer un sabroso pollito a la brasa', 1),
                                                                 (DEFAULT, 'Comer pizza', 'Comer una sabrosa pizza con peperoni', 1);
                                                                 
-SELECT * FROM tareas WHERE usuario_id=1;
+SELECT * FROM tareas WHERE usuario_id=1 AND titulo LIKE '%comer%';
+SELECT * FROM usuarios WHERE nombre LIKE '%o';
+SELECT * FROM usuarios WHERE nombre LIKE 'J%';
+-- Si queremos hacer la distincion entre mayus y minus entonces antes de poner el texto colocaremos la palabra
+-- BINARY y esto sirve para que haga la comparacion a nivel de numeros de caracteres (formato ASCII)
+SELECT * FROM usuarios WHERE nombre LIKE BINARY  'J%';
+
+SELECT * FROM usuarios WHERE nombre LIKE '_u%';
+
+SELECT * FROM usuarios WHERE nombre NOT LIKE '__u%';
+
+INSERT INTO tareas (id, titulo, descripcion, usuario_id) VALUES (DEFAULT, 'no hacer nada', 'no hacer nada porque es domingo', null);
+
+SELECT * FROM tareas;
+INSERT INTO tareas(id, titulo, descripcion, usuario_id) VALUES (DEFAULT, 'Jugar LOL', 'Jugar con mis amigos pros', 3);
+-- Interseccion entre la tabla usuarios con la tabla tareas donde usuarios.id = tareas.usuario_id
+SELECT * FROM usuarios INNER JOIN tareas ON usuarios.id = tareas.usuario_id;
+
+SELECT * FROM usuarios LEFT JOIN tareas ON usuarios.id = tareas.usuario_id UNION
+SELECT * FROM usuarios RIGHT JOIN tareas ON usuarios.id = tareas.usuario_id;
+
+SELECT CONCAT(titulo, ' ', descripcion) AS 'nombre completo' FROM tareas;
+
+-- 1. Devolver todos los usuarios cuyo dni contengan el numero 5
+
+SELECT * FROM usuarios WHERE dni LIKE '%5%';
+
+-- 2. Devolver todos los usuarios cuyo dni tengan el tercer digito 8
+
+SELECT * FROM usuarios WHERE dni LIKE '__8%';
+
+-- 3. Devolver todas las tareas del usuario 'Eduardo'
+
+SELECT * FROM usuarios INNER JOIN tareas ON usuarios.id = tareas.usuario_id WHERE nombre='Eduardo';
+
