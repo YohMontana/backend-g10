@@ -33,13 +33,46 @@ def gestion_productos():
       print(productos)
       # cerra nuestra conexion
       cursor.close()
-
+      resultado = []
+      for producto in productos:
+        print(producto)
+        producto_dic = {
+          'id': producto[0],
+          'nombre': producto[1],
+          'imagen': producto[2],
+          'fecha_vencimiento': producto[3].strftime('%Y-%m-%d'),
+          'precio': producto[4],
+          'disponible': producto[5],
+          'categoria_id': producto[6]
+        }
+        resultado.append(producto_dic)
+        print(producto_dic)
       return{
-        'message': 'Los productos son'
+        'message': 'Los productos son',
+        'content': resultado
+
       }
     elif request.method == 'POST':
+      cursor = mysql.connection.cursor()
+      informacion = request.get_json()
+      cursor.execute("INSERT INTO productos(id, nombre, imagen, fecha_vencimiento, precio, disponible, categoria_id) VALUES (DEFAULT, '%s', '%s', '%s', %f, %s, %d)" %(
+        informacion.get('nombre'),
+        informacion.get('imagen'),
+        informacion.get('fecha_vencimiento'),
+        informacion.get('precio'),
+        informacion.get('disponible'),
+        informacion.get('categoria_id')
+        ))
+
+      mysql.connection.commit()
+      cursor.close()
+
       return{
-        'mesasage': 'Producto creado exitos'
+        'mesasage': 'Producto creado exitosamente'
       }
+
+@app.route("/producto/<int:id>", methods = ['GET', 'PUT', 'DELETE'])
+def gestion_un_producto(id):
+  pass
 
 app.run(debug=True)
