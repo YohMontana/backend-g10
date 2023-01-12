@@ -1,0 +1,3 @@
+pip freeze > requirements.txt => el output (lo que muestra) el comando lo guardara en el archivo 'requirements.txt' si no existe el archivo lo creara, caso contrario lo sobreescribifa-rotate-180
+
+pip install -r requirements.txt
