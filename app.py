@@ -1,11 +1,15 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from controllers.productos_controller import ProductosController
+from flask_migrate import Migrate
+from db import db
 
 app = Flask(__name__)
-db = SQLAlchemy(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///project.db"
+
+db.init_app(app)
+
+migrate = Migrate()
 
 @app.route("/")
 def index():
